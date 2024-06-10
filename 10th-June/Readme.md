@@ -1,7 +1,7 @@
 # Sales Data Cleaning and Analysis (Task # 1)
 Task 1 is to clean and analyze a sales transactions dataset using pandas. It performs several tasks to prepare the data for analysis, extract useful insights, and export the cleaned data.
 
-## Task 1 verview
+## Task 1 Overview
 
 1. **Load the Dataset**: The script loads the dataset from a CSV file into a pandas DataFrame.
 2. **Data Cleaning**: It removes any duplicate rows and rows with missing values to ensure data quality.

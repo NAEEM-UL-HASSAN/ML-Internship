@@ -3,6 +3,7 @@
 import numpy as np
 import pandas as pd
 
+
 def main():
     """
     Main function to perform the numerical analysis using NumPy library.
@@ -26,6 +27,7 @@ def main():
     # Convert the DataFrame to a NumPy array
     data = numeric_df.to_numpy()
     print(data.shape)
+
     # Calculate mean, median, and standard deviation
     mean_value = np.mean(data, axis=0)
     median_value = np.median(data, axis=0)
@@ -53,7 +55,10 @@ def main():
     reshaped_data = np.reshape(data, new_shape)
 
     # Save the processed data as a NumPy binary file
-    np.save('processed_data.npy', normalized_data) 
+    np.savez('Task2_processed_data.npz', mean=mean_value, median=mean_value,
+            std_deviation=std_deviation, normalization=normalized_data, outliers=outliers,
+            addition=data_addition, subtraction=data_subtraction,
+            multiplication=data_multiplication, division=data_division, reshaped_data=reshaped_data)
 
     # Print results for verification
     print(f"Mean: {mean_value}")
@@ -65,6 +70,7 @@ def main():
     print(f"Data after multiplication:\n{data_multiplication}")
     print(f"Data after division:\n{data_division}")
     print(f"Reshaped data shape: {reshaped_data.shape}")
+
 
 if __name__ == "__main__":
     main()
