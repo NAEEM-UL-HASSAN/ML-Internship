@@ -48,5 +48,6 @@ You can install this library using pip:
 
 ```bash
 pip install numpy
+pip install panda
 ```
 
