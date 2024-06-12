@@ -25,6 +25,8 @@ def gather_file_metadata(directory):
         folder_size = sum(os.path.getsize(os.path.join(root, name)) for name in files)
         num_files = len(files)
         parent_folder = os.path.basename(root)
+        dirs = ""
+        print(dirs)
         for name in files:
             file_path = os.path.join(root, name)
             file_size = os.path.getsize(file_path)
@@ -61,7 +63,6 @@ def sort_and_summarize(df):
         total_files=('file_name', 'count'),
         total_size=('file_size', 'sum')
     ).reset_index()
-    
     return df_sorted, summary
 
 def save_results(df, summary, output_dir):
