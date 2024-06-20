@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Speech-to-Text</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Real-Time Speech-to-Text</h1>
+    <div id="text">Click on the listen button to start listening audio</div>
+    <button id="listenButton">Listen</button>
+    <button id="stopButton">Stop Listening</button>
+
+    <script>
+        let listening = false;
+
+        document.getElementById('listenButton').addEventListener('click', async () => {
+            if (listening) {
+                alert('Already listening...');
+                return;
+            }
+            
+            listening = true;
+            document.getElementById('text').textContent = 'Listening...';
+            const response = await fetch('/listen');
+            const data = await response.json();
+            document.getElementById('text').textContent = data.text;
+            listening = false;
+        });
+
+        document.getElementById('stopButton').addEventListener('click', async () => {
+            document.getElementById('text').textContent = 'Recognizing...';
+            const response = await fetch('/stop');
+            const data = await response.json();
+            document.getElementById('text').textContent = data.text;
+        });
+    </script>
+</body>
+</html>
