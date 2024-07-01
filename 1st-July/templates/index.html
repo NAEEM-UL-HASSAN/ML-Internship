@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Talking Avatar</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>LLM Based Talking Avatar</h1>
+    <div class="input-container">
+      <input type="text" id="userMessage" placeholder="Type your message here">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+    <div id="response"></div>
+    <img id="avatarImage" src="/static/sources/avatar.png" alt="Avatar Image" class="avatar-media">
+    <video id="avatarVideo" src="/static/sources/avatar.mp4" class="avatar-media" onended="videoEnded()"
+      style="display: none;" loop></video>
+    <audio id="responseAudio" style="display: none;"></audio>
+    <div class="control-buttons">
+      <button onclick="pauseMedia()">Pause</button>
+      <button onclick="playMedia()">Play</button>
+    </div>
+  </div>
+  <script>
+    async function sendMessage() {
+      const message = document.getElementById('userMessage').value;
+      const responseDiv = document.getElementById('response');
+      const responseAudio = document.getElementById('responseAudio');
+      const avatarImage = document.getElementById('avatarImage');
+      const avatarVideo = document.getElementById('avatarVideo');
+
+      responseDiv.innerHTML = 'Wait For Response...';
+      const response = await fetch('/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message })
+      });
+      const data = await response.json();
+      responseDiv.innerHTML = '';
+
+      // Hide image and show video
+      avatarImage.style.display = 'none';
+      avatarVideo.style.display = 'block';
+      avatarVideo.style.marginLeft = "100px";
+      avatarVideo.play();
+
+      // Play audio response
+      responseAudio.src = `/static/audio/${data.audio}`;
+      responseAudio.style.display = 'block';
+      responseAudio.play();
+
+      responseAudio.onended = function () {
+        avatarVideo.pause();
+        avatarImage.style.display = 'block';
+        avatarVideo.style.display = 'none';
+        avatarImage.style.marginLeft = "100px";
+      };
+    }
+
+    function videoEnded() {
+      const responseAudio = document.getElementById('responseAudio');
+      if (!responseAudio.paused) {
+        const avatarVideo = document.getElementById('avatarVideo');
+        avatarVideo.currentTime = 0;
+        avatarVideo.play();
+      }
+    }
+
+    function pauseMedia() {
+      const responseAudio = document.getElementById('responseAudio');
+      const avatarVideo = document.getElementById('avatarVideo');
+      responseAudio.pause();
+      avatarVideo.pause();
+    }
+
+    function playMedia() {
+      const responseAudio = document.getElementById('responseAudio');
+      const avatarVideo = document.getElementById('avatarVideo');
+      responseAudio.play();
+      avatarVideo.play();
+    }
+  </script>
+</body>
+
+</html>
