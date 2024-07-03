@@ -34,7 +34,7 @@ The code includes the following main functionalities:
     git clone https://github.com/NAEEM-UL-HASSAN/ML-Internship.git
     ```
 
-2. Open the 2nd-July Folder:
+2. Open the 2nd-July Folder.
 
 3. Upload `img_demo.png` inside your google drive `MyDrive` folder.
 
